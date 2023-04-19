@@ -15,7 +15,7 @@ public class MessageSendLog : Entity
     /// <summary>
     /// 配置
     /// </summary>
-    public Configuration Configuration { get; set; }
+    public Channel Configuration { get; set; }
 
     /// <summary>
     /// 平台

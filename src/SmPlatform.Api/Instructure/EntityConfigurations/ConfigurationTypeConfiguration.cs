@@ -7,14 +7,14 @@ namespace SmPlatform.Api.Instructure.EntityConfigurations;
 /// <summary>
 /// 平台配置实体的配置
 /// </summary>
-public class ConfigurationTypeConfiguration : IEntityTypeConfiguration<Configuration>
+public class ConfigurationTypeConfiguration : IEntityTypeConfiguration<Channel>
 {
-    public void Configure(EntityTypeBuilder<Configuration> builder)
+    public void Configure(EntityTypeBuilder<Channel> builder)
     {
-        builder.ToTable(nameof(Configuration));
+        builder.ToTable(nameof(Channel));
 
-        builder.Ignore(nameof(Configuration.OtherOptions));
+        builder.Ignore(nameof(Channel.OtherOptions));
 
-        builder.Property("_otherOptions").UsePropertyAccessMode(PropertyAccessMode.Field).HasColumnName(nameof(Configuration.OtherOptions)).HasDefaultValue("{}");
+        builder.Property("_otherOptions").UsePropertyAccessMode(PropertyAccessMode.Field).HasColumnName(nameof(Channel.OtherOptions)).HasDefaultValue("{}");
     }
 }

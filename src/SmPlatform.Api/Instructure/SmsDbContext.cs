@@ -8,7 +8,7 @@ public class SmsDbContext : DbContext
 {
     public DbSet<BlackList> BlackLists { get; set; }
 
-    public DbSet<Configuration> Configurations { get; set; }
+    public DbSet<Channel> Configurations { get; set; }
 
     public DbSet<ManualProcess> ManualProcesses { get; set; }
 

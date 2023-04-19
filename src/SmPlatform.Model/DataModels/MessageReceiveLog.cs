@@ -28,7 +28,7 @@ public class MessageReceiveLog : Entity
     /// <summary>
     /// 配置
     /// </summary>
-    public List<Configuration> Configurations { get; set; }
+    public List<Channel> Configurations { get; set; }
 
     /// <summary>
     /// 模板
