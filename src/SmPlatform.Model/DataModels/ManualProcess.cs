@@ -1,28 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Numerics;
 using System.Text.Json;
-using System.Threading.Tasks;
-
 namespace SmPlatform.Model.DataModels;
 
 /// <summary>
 /// 人工处理记录
 /// </summary>
-public class ManualProcess : Entity
+public record ManualProcess : Entity
 {
     private string _channels;
 
     /// <summary>
     /// 模板
     /// </summary>
-    public string Template { get; set; }
+    public Guid Template { get; set; }
 
     /// <summary>
     /// 签名
     /// </summary>
-    public Signature Signature { get; set; }
+    public Guid Signature { get; set; }
 
     /// <summary>
     /// 手机号

@@ -3,7 +3,7 @@
 /// <summary>
 /// 模板
 /// </summary>
-public class Template : Entity
+public record Template : Entity
 {
     /// <summary>
     /// 名称
@@ -29,6 +29,7 @@ public class Template : Entity
     /// 分类
     /// </summary>
     public TemplateCategory Category { get; set; }
+
 }
 
 /// <summary>

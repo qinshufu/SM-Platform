@@ -3,7 +3,7 @@
 /// <summary>
 /// 实体抽象
 /// </summary>
-public abstract class Entity
+public abstract record Entity
 {
     /// <summary>
     /// 主键

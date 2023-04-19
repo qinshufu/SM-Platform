@@ -6,19 +6,19 @@ namespace SmPlatform.Model.DataModels;
 /// <summary>
 /// 定时消息
 /// </summary>
-public class TimedMessage : Entity
+public record TimedMessage : Entity
 {
     private string _requestParams;
 
     /// <summary>
     /// 模板
     /// </summary>
-    public Template Template { get; set; }
+    public Guid Template { get; set; }
 
     /// <summary>
     /// 签名
     /// </summary>
-    public Signature Signature { get; set; }
+    public Guid Signature { get; set; }
 
     /// <summary>
     /// 电话

@@ -15,6 +15,10 @@ public class MessageReceivelLogTypeConfiguration : IEntityTypeConfiguration<Mess
 
         builder.Ignore(nameof(MessageReceiveLog.RequestParams));
 
+        builder.Ignore(nameof(MessageReceiveLog.Configurations));
+
         builder.Property("_requestParams").UsePropertyAccessMode(PropertyAccessMode.Field).HasColumnName(nameof(MessageReceiveLog.RequestParams)).HasDefaultValue("{}");
+
+        builder.Property("_configurations").UsePropertyAccessMode(PropertyAccessMode.Field).HasColumnName(nameof(MessageReceiveLog.Configurations)).HasDefaultValue("[]");
     }
 }

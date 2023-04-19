@@ -4,9 +4,9 @@ using System.Text.Json;
 namespace SmPlatform.Model.DataModels;
 
 /// <summary>
-/// 配置
+/// 短信通道配置
 /// </summary>
-public class Configuration : Entity
+public record Channel : Entity
 {
 
     private string _otherOptions;
@@ -20,6 +20,16 @@ public class Configuration : Entity
     /// 平台
     /// </summary>
     public Platform Platform { get; set; }
+
+    /// <summary>
+    /// 短信模板
+    /// </summary>
+    public List<Template> Templates { get; set; }
+
+    /// <summary>
+    /// 短信列表
+    /// </summary>
+    public List<Signature> Signatures { get; set; }
 
     /// <summary>
     /// 域名

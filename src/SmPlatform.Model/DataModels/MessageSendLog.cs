@@ -6,7 +6,7 @@ namespace SmPlatform.Model.DataModels;
 /// <summary>
 /// 消息接收日志
 /// </summary>
-public class MessageSendLog : Entity
+public record MessageSendLog : Entity
 {
     private string _requestParams;
 
@@ -15,22 +15,22 @@ public class MessageSendLog : Entity
     /// <summary>
     /// 配置
     /// </summary>
-    public Configuration Configuration { get; set; }
+    public Guid Configuration { get; set; }
 
     /// <summary>
     /// 平台
     /// </summary>
-    public Platform Platform { get; set; }
+    public Guid Platform { get; set; }
 
     /// <summary>
     /// 模板
     /// </summary>
-    public Template Template { get; set; }
+    public Guid Template { get; set; }
 
     /// <summary>
     /// 签名
     /// </summary>
-    public Signature Signature { get; set; }
+    public Guid Signature { get; set; }
 
     /// <summary>
     /// 电话

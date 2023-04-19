@@ -1,14 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Conventions;
+using SmPlatform.Api.Domain;
 using SmPlatform.Model.DataModels;
 
 namespace SmPlatform.Api.Instructure;
 
-public class SmsDbContext : DbContext
+public class SmsDbContext : DbContext, IUnitWork
 {
     public DbSet<BlackList> BlackLists { get; set; }
 
-    public DbSet<Configuration> Configurations { get; set; }
+    public DbSet<Channel> Configurations { get; set; }
 
     public DbSet<ManualProcess> ManualProcesses { get; set; }
 
@@ -33,7 +33,7 @@ public class SmsDbContext : DbContext
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task SaveEntitiesAsync(CancellationToken cancellationToken = default)
+    public async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default)
     {
         var changedEntities = this.ChangeTracker.Entries<Entity>();
 
@@ -47,6 +47,8 @@ public class SmsDbContext : DbContext
         }
 
         await SaveChangesAsync(cancellationToken);
+
+        return true;
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

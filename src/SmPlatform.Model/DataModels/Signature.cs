@@ -3,7 +3,7 @@
 /// <summary>
 /// 签名
 /// </summary>
-public class Signature : Entity
+public record Signature : Entity
 {
     /// <summary>
     /// 名称
@@ -24,4 +24,5 @@ public class Signature : Entity
     /// 签名备注
     /// </summary>
     public string Remark { get; set; }
+
 }
