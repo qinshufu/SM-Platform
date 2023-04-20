@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MassTransit.Mediator;
+using Microsoft.EntityFrameworkCore;
 using SmPlatform.Api.Domain;
 using SmPlatform.Model.DataModels;
 using SmPlatform.Model.ViewModels;
@@ -15,15 +16,22 @@ public class ChannelAddHandler : MediatorRequestHandler<ChannelAddCommand, ApiRe
 
     private readonly IMapper _mapper;
 
-    public ChannelAddHandler(IChannelRepository channelRepository, IMapper mapper)
+    private readonly IQueryable<Channel> _channels;
+
+    public ChannelAddHandler(IChannelRepository channelRepository, IQueryable<Channel> channels, IMapper mapper)
     {
         _channelRepository = channelRepository;
         _mapper = mapper;
+        _channels = channels;
     }
 
     protected override async Task<ApiResult<ChannelInformation>> Handle(ChannelAddCommand request, CancellationToken cancellationToken)
     {
         var channel = _mapper.Map<Channel>(request);
+        var rank = await _channels.CountAsync();
+
+        channel.Level = rank;
+
         var result = _mapper.Map<ChannelInformation>(await _channelRepository.AddAsync(channel));
 
         await _channelRepository.UnitWork.SaveEntitiesAsync(cancellationToken);
