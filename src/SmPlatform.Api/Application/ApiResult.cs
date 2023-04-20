@@ -22,6 +22,8 @@ public record ApiResult
 /// </summary>
 public record ApiResult<T> : ApiResult
 {
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public new T? Data { get; init; }
 }
 
 

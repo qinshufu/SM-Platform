@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using SmPlatform.Api.Application.Commands;
 using SmPlatform.Model.DataModels;
 using SmPlatform.Model.ViewModels;
 
@@ -9,8 +10,9 @@ namespace SmPlatform.Api.Application;
 /// </summary>
 public class MapProfile : Profile
 {
-    protected MapProfile()
+    public MapProfile()
     {
         CreateMap<Channel, ChannelInformation>();
+        CreateMap<ChannelAddCommand, Channel>();
     }
 }
