@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using SmPlatform.Api.Application.Exceptions;
 using SmPlatform.Api.Domain;
+using SmPlatform.BuildingBlock.Extensions;
 using SmPlatform.Model.DataModels;
 using SmPlatform.Model.ViewModels;
 
@@ -15,10 +16,32 @@ public class ChannelQuery : IChannelQuery
 
     private readonly IMapper _mapper;
 
-    public ChannelQuery(IChannelRepository channelRepository, IMapper mapper)
+    private readonly IQueryable<Channel> _channels;
+
+    // TODO 注入相应的 IQueryable<TEntity>
+    public ChannelQuery(IChannelRepository channelRepository, IQueryable<Channel> channels, IMapper mapper)
     {
         _channelRepository = channelRepository;
         _mapper = mapper;
+        _channels = channels;
+    }
+
+    /// <summary>
+    /// 获取短信通道的分页
+    /// </summary>
+    /// <param name="paginationParams"></param>
+    /// <returns></returns>
+    /// <exception cref="NotImplementedException"></exception>
+    public async Task<ApiResult<Pagination<ChannelBasicInformation>>> PaginationAsync(ChannelPaginationParams paginationParams)
+    {
+        await Task.Yield();
+
+        var result = _channels
+            .Where(c => c.CreateTime > paginationParams.StartTime && c.CreateTime < paginationParams.EndTime)
+            .OrderByDescending(c => c.CreateTime)
+            .Pagination(paginationParams.PageNumber, paginationParams.PageSize);
+
+        return ApiResultFactory.Success(_mapper.Map<Pagination<ChannelBasicInformation>>(result));
     }
 
     /// <summary>

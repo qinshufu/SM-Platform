@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SmPlatform.BuildingBlock\SmPlatform.BuildingBlock.csproj" />
     <ProjectReference Include="..\SmPlatform.Model\SmPlatform.Model.csproj" />
   </ItemGroup>
 

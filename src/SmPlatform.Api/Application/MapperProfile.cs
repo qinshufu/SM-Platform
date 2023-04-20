@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using SmPlatform.Api.Application.Commands;
+using SmPlatform.BuildingBlock.Extensions;
 using SmPlatform.Model.DataModels;
 using SmPlatform.Model.ViewModels;
 
@@ -14,5 +15,7 @@ public class MapperProfile : Profile
     {
         CreateMap<Channel, ChannelInformation>();
         CreateMap<ChannelAddCommand, Channel>();
+        CreateMap<Channel, ChannelBasicInformation>();
+        CreateMap<Pagination<Channel>, Pagination<ChannelBasicInformation>>();
     }
 }
