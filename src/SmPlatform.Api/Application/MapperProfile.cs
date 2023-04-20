@@ -8,9 +8,9 @@ namespace SmPlatform.Api.Application;
 /// <summary>
 /// AutoMapper 配置
 /// </summary>
-public class MapProfile : Profile
+public class MapperProfile : Profile
 {
-    public MapProfile()
+    public MapperProfile()
     {
         CreateMap<Channel, ChannelInformation>();
         CreateMap<ChannelAddCommand, Channel>();
