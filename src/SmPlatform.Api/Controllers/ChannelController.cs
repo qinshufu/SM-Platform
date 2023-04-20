@@ -43,6 +43,8 @@ namespace SmPlatform.Api.Controllers
         [HttpPost]
         public Task<ApiResult<ChannelInformation>> AddChannel([FromBody] ChannelAddCommand command) => _mediator.SendRequest(command);
 
+
+        // TODO 这里好像不需要分页，直接取全部就可以了
         /// <summary>
         /// 获取短信通道分页
         /// </summary>
@@ -52,5 +54,21 @@ namespace SmPlatform.Api.Controllers
         [HttpGet("pagination")]
         public Task<ApiResult<Pagination<ChannelBasicInformation>>> Pagination(
             [FromQuery] ChannelPaginationParams paginationParams) => _channelQuery.PaginationAsync(paginationParams);
+
+        /// <summary>
+        /// 对短信通道进行重新排序
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        [HttpPost("rank")]
+        public Task<ApiResult> Rank([FromBody] ChannelRankCommand command) => _mediator.SendRequest(command);
+
+        /// <summary>
+        /// 更新短信通道配置
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        [HttpPut]
+        public Task<ApiResult<ChannelInformation>> Update([FromBody] ChannelUpdateCommand command) => _mediator.SendRequest(command);
     }
 }
