@@ -6,7 +6,7 @@ namespace SmPlatform.Model.DataModels;
 /// <summary>
 /// 定时消息
 /// </summary>
-public class TimedMessage : Entity
+public record TimedMessage : Entity
 {
     private string _requestParams;
 

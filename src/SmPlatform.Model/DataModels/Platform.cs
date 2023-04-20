@@ -3,7 +3,7 @@
 /// <summary>
 /// 接入平台
 /// </summary>
-public class Platform : Entity
+public record Platform : Entity
 {
     /// <summary>
     /// 名称

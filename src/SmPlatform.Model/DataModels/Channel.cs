@@ -6,7 +6,7 @@ namespace SmPlatform.Model.DataModels;
 /// <summary>
 /// 短信通道配置
 /// </summary>
-public class Channel : Entity
+public record Channel : Entity
 {
 
     private string _otherOptions;

@@ -3,7 +3,7 @@
 /// <summary>
 /// 模板
 /// </summary>
-public class Template : Entity
+public record Template : Entity
 {
     /// <summary>
     /// 名称

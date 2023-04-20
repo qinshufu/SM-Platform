@@ -6,7 +6,7 @@ namespace SmPlatform.Model.DataModels;
 /// <summary>
 /// 消息接收日志
 /// </summary>
-public class MessageSendLog : Entity
+public record MessageSendLog : Entity
 {
     private string _requestParams;
 

@@ -3,7 +3,7 @@
 /// <summary>
 /// 实体基础信息
 /// </summary>
-public class EntityBasicInfo
+public record EntityBasicInfo
 {
     /// <summary>
     /// 主键

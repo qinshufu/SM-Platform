@@ -6,7 +6,7 @@ namespace SmPlatform.Model.ViewModels;
 /// <summary>
 /// 频道信息
 /// </summary>
-public class ChannelInformation : EntityBasicInfo
+public record ChannelInformation : EntityBasicInfo
 {
     /// <summary>
     /// 名称

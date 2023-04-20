@@ -10,7 +10,7 @@ namespace SmPlatform.Model.DataModels;
 /// <summary>
 /// 人工处理记录
 /// </summary>
-public class ManualProcess : Entity
+public record ManualProcess : Entity
 {
     private string _channels;
 

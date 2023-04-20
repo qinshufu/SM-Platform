@@ -3,7 +3,7 @@
 /// <summary>
 /// 黑名单
 /// </summary>
-public class BlackList : Entity
+public record BlackList : Entity
 {
     /// <summary>
     /// 消息类型
