@@ -26,6 +26,8 @@ public class ChannelAddHandler : MediatorRequestHandler<ChannelAddCommand, ApiRe
         var channel = _mapper.Map<Channel>(request);
         var result = _mapper.Map<ChannelInformation>(await _channelRepository.AddAsync(channel));
 
+        await _channelRepository.UnitWork.SaveEntitiesAsync(cancellationToken);
+
         return ApiResultFactory.Success(result);
     }
 }
