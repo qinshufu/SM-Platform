@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using SmPlatform.Api.Application.Exceptions;
-using SmPlatform.Api.Domain;
+using SmPlatform.Api.Instructure;
 using SmPlatform.BuildingBlock.Extensions;
 using SmPlatform.Model.DataModels;
 using SmPlatform.Model.ViewModels;
@@ -12,18 +13,14 @@ namespace SmPlatform.Api.Application.Queries;
 /// </summary>
 public class ChannelQuery : IChannelQuery
 {
-    private readonly IChannelRepository _channelRepository;
-
     private readonly IMapper _mapper;
 
-    private readonly IQueryable<Channel> _channels;
+    private readonly SmsDbContext _dbContext;
 
-    // TODO 注入相应的 IQueryable<TEntity>
-    public ChannelQuery(IChannelRepository channelRepository, IQueryable<Channel> channels, IMapper mapper)
+    public ChannelQuery(SmsDbContext dbContext, IMapper mapper)
     {
-        _channelRepository = channelRepository;
         _mapper = mapper;
-        _channels = channels;
+        _dbContext = dbContext;
     }
 
     /// <summary>
@@ -36,7 +33,7 @@ public class ChannelQuery : IChannelQuery
     {
         await Task.Yield();
 
-        var result = _channels
+        var result = _dbContext.Set<Channel>()
             .Where(c => c.CreateTime > paginationParams.StartTime && c.CreateTime < paginationParams.EndTime)
             .OrderByDescending(c => c.CreateTime)
             .Pagination(paginationParams.PageNumber, paginationParams.PageSize);
@@ -52,7 +49,7 @@ public class ChannelQuery : IChannelQuery
     /// <exception cref="EntityNotFoundException{Channel}">当指定 ID 对应的短信通道不存在时抛出</exception>
     public async Task<ApiResult<ChannelInformation>> QueryByIdAsync(Guid id)
     {
-        var channel = await _channelRepository.GetOrDefaultByIdAsync(id) ?? throw new EntityNotFoundException<Channel>("没有找到对应的短信通道");
+        var channel = await _dbContext.Set<Channel>().SingleOrDefaultAsync(c => c.Id == id) ?? throw new EntityNotFoundException<Channel>("没有找到对应的短信通道");
 
         return ApiResultFactory.Success(_mapper.Map<ChannelInformation>(channel));
     }

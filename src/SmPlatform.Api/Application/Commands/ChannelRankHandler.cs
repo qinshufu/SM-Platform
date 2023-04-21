@@ -1,7 +1,5 @@
 ﻿using MassTransit.Mediator;
-using Microsoft.EntityFrameworkCore;
 using SmPlatform.Api.Domain;
-using SmPlatform.Model.DataModels;
 
 namespace SmPlatform.Api.Application.Commands;
 
@@ -12,26 +10,29 @@ public class ChannelRankHandler : MediatorRequestHandler<ChannelRankCommand, Api
 {
     private readonly IChannelRepository _channelRepository;
 
-    private readonly IQueryable<Channel> _channel;
-
-    public ChannelRankHandler(IChannelRepository channelRepository, IQueryable<Channel> channels)
+    public ChannelRankHandler(IChannelRepository channelRepository)
     {
         _channelRepository = channelRepository;
-        _channel = channels;
     }
 
     protected override async Task<ApiResult> Handle(ChannelRankCommand request, CancellationToken cancellationToken)
     {
-        if (await _channel.CountAsync(cancellationToken) != request.Rank.Count())
+        if (request.Rank.ToHashSet().Count != request.Rank.Count)
+        {
+            return ApiResultFactory.FailWithoutData("重复的短信通道");
+        }
+
+        if (await _channelRepository.CountAsync(cancellationToken) != request.Rank.Count())
         {
             return ApiResultFactory.FailWithoutData("没有列出所有通道，无法完成重新排序的操作");
         }
 
         var rankList = request.Rank.Select((r, index) => (Id: r, Rank: index + 1));
-        var channelsForUpdate = await _channel.Where(c => rankList.Select(r => r.Id).Contains(c.Id)).ToArrayAsync(cancellationToken);
+        var channels = await _channelRepository.GetAllAsync(cancellationToken);
+
 
         foreach (var (rank, channel) in from r in rankList
-                                        join c in channelsForUpdate on r.Id equals c.Id
+                                        join c in channels on r.Id equals c.Id
                                         select (r.Rank, c))
         {
             channel.Level = rank;

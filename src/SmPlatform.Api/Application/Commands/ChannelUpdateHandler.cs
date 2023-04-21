@@ -1,10 +1,10 @@
-﻿using MassTransit.Mediator;
-using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
+﻿using AutoMapper;
+using MassTransit.Mediator;
 using SmPlatform.Api.Application.Exceptions;
 using SmPlatform.Api.Domain;
 using SmPlatform.Model.DataModels;
 using SmPlatform.Model.ViewModels;
-using System.Linq;
+using System.Reflection;
 
 namespace SmPlatform.Api.Application.Commands;
 
@@ -15,15 +15,31 @@ public class ChannelUpdateHandler : MediatorRequestHandler<ChannelUpdateCommand,
 {
     private readonly IChannelRepository _channelRepository;
 
-    public ChannelUpdateHandler(IChannelRepository channelRepository)
+    private readonly IMapper _mapper;
+
+    public ChannelUpdateHandler(IChannelRepository channelRepository, IMapper mapper)
     {
         _channelRepository = channelRepository;
+        _mapper = mapper;
     }
 
     protected override async Task<ApiResult<ChannelInformation>> Handle(ChannelUpdateCommand request, CancellationToken cancellationToken)
     {
-        var channel = await _channelRepository.GetOrDefaultByIdAsync(request.Id) ?? throw new EntityNotFoundException<Channel>("短信通道不存在");
+        var channel = await _channelRepository.FindByIdAsync(request.Id) ?? throw new EntityNotFoundException<Channel>("短信通道不存在");
+        var newChannel = _mapper.Map<Channel>(request); // TODO map ChannelUpdateCommand => Channel
 
-        // TODO
+        foreach (var property in typeof(Channel).GetProperties(BindingFlags.Instance | BindingFlags.SetProperty | BindingFlags.GetProperty))
+        {
+            var value = property.GetValue(newChannel);
+
+            if (value is not null)
+            {
+                property.SetValue(channel, value);
+            }
+        }
+
+        await _channelRepository.UnitWork.SaveEntitiesAsync(cancellationToken);
+
+        return ApiResultFactory.Success(_mapper.Map<ChannelInformation>(channel));
     }
 }

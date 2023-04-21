@@ -16,21 +16,24 @@ public class ChannelAddHandler : MediatorRequestHandler<ChannelAddCommand, ApiRe
 
     private readonly IMapper _mapper;
 
-    private readonly IQueryable<Channel> _channels;
 
-    public ChannelAddHandler(IChannelRepository channelRepository, IQueryable<Channel> channels, IMapper mapper)
+    public ChannelAddHandler(IChannelRepository channelRepository, IMapper mapper)
     {
         _channelRepository = channelRepository;
         _mapper = mapper;
-        _channels = channels;
     }
 
     protected override async Task<ApiResult<ChannelInformation>> Handle(ChannelAddCommand request, CancellationToken cancellationToken)
     {
         var channel = _mapper.Map<Channel>(request);
-        var rank = await _channels.CountAsync();
+        var rank = await _channelRepository.CountAsync(cancellationToken);
 
-        channel.Level = rank;
+        channel.Level = (int)rank;
+
+        // 这种情况不应该发生，因为短信通道数量绝不会超过 int 的范围
+        if (channel.Level != rank)
+            throw new InvalidOperationException("long -> int 的类型转换损失");
+
 
         var result = _mapper.Map<ChannelInformation>(await _channelRepository.AddAsync(channel));
 

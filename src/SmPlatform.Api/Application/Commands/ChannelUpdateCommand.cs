@@ -23,16 +23,6 @@ public record ChannelUpdateCommand : Request<ApiResult<ChannelInformation>>
     public Guid Platform { get; set; }
 
     /// <summary>
-    /// 短信模板
-    /// </summary>
-    public List<Guid> Templates { get; set; }
-
-    /// <summary>
-    /// 签名列表
-    /// </summary>
-    public List<Guid> Signatures { get; set; }
-
-    /// <summary>
     /// 域名
     /// </summary>
     public string Domain { get; set; }
