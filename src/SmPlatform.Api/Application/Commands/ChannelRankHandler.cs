@@ -1,7 +1,7 @@
 ﻿using MassTransit.Mediator;
-using SmPlatform.Api.Domain.Repositories;
+using SmPlatform.ManagementApi.Domain.Repositories;
 
-namespace SmPlatform.Api.Application.Commands;
+namespace SmPlatform.ManagementApi.Application.Commands;
 
 /// <summary>
 /// 短信通道信息重新排序命令处理器

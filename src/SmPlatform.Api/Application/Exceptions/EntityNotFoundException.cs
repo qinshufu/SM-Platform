@@ -1,6 +1,6 @@
 ﻿using SmPlatform.Model.DataModels;
 
-namespace SmPlatform.Api.Application.Exceptions;
+namespace SmPlatform.ManagementApi.Application.Exceptions;
 
 /// <summary>
 /// 实体未找到异常

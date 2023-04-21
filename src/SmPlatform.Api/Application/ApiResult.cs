@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace SmPlatform.Api.Application;
+namespace SmPlatform.ManagementApi.Application;
 
 /// <summary>
 /// Api 的结果

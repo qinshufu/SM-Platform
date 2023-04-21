@@ -1,11 +1,11 @@
 ﻿
 using AutoMapper;
 using MassTransit.Mediator;
-using SmPlatform.Api.Domain.Repositories;
+using SmPlatform.ManagementApi.Domain.Repositories;
 using SmPlatform.Model.DataModels;
 using SmPlatform.Model.ViewModels;
 
-namespace SmPlatform.Api.Application.Commands;
+namespace SmPlatform.ManagementApi.Application.Commands;
 
 /// <summary>
 /// 通道与模板签名的绑定修改命令

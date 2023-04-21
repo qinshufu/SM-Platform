@@ -1,4 +1,4 @@
-﻿namespace SmPlatform.Api.Domain;
+﻿namespace SmPlatform.ManagementApi.Domain;
 
 /// <summary>
 /// 工作单元

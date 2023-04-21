@@ -1,10 +1,10 @@
 ﻿using MassTransit.Internals;
 using Microsoft.EntityFrameworkCore;
-using SmPlatform.Api.Domain;
-using SmPlatform.Api.Domain.Repositories;
+using SmPlatform.ManagementApi.Domain;
+using SmPlatform.ManagementApi.Domain.Repositories;
 using SmPlatform.Model.DataModels;
 
-namespace SmPlatform.Api.Instructure.Repositories;
+namespace SmPlatform.ManagementApi.Instructure.Repositories;
 
 /// <summary>
 /// 通道仓储

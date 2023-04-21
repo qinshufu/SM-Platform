@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
 using MassTransit.Mediator;
-using SmPlatform.Api.Application.Exceptions;
-using SmPlatform.Api.Domain.Repositories;
+using SmPlatform.ManagementApi.Application.Exceptions;
+using SmPlatform.ManagementApi.Domain.Repositories;
 using SmPlatform.Model.DataModels;
 using SmPlatform.Model.ViewModels;
 using System.Reflection;
 
-namespace SmPlatform.Api.Application.Commands;
+namespace SmPlatform.ManagementApi.Application.Commands;
 
 /// <summary>
 /// 短信通道更新命令处理器

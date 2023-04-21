@@ -7,13 +7,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{9196B93B-0FE
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmPlatform.Model", "src\SmPlatform.Model\SmPlatform.Model.csproj", "{DEB20918-8E1D-4A89-86F1-EDA69B698673}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmPlatform.Api", "src\SmPlatform.Api\SmPlatform.Api.csproj", "{7BE6E888-7406-4FC1-9F93-A30DDEA2B102}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmPlatform.ManagementApi", "src\SmPlatform.Api\SmPlatform.ManagementApi.csproj", "{7BE6E888-7406-4FC1-9F93-A30DDEA2B102}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{7B9F84E5-B822-4F65-B2D3-4C77B0C6D514}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmPlatform.Api.Test", "test\SmPlatform.Api.Test\SmPlatform.Api.Test.csproj", "{8F42E95F-055B-42CA-9804-C9722D30F090}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmPlatform.Api.Test", "test\SmPlatform.Api.Test\SmPlatform.Api.Test.csproj", "{8F42E95F-055B-42CA-9804-C9722D30F090}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmPlatform.BuildingBlock", "src\SmPlatform.BuildingBlock\SmPlatform.BuildingBlock.csproj", "{B8EF65A4-57E3-47D0-BA76-25F799A2CC36}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmPlatform.BuildingBlock", "src\SmPlatform.BuildingBlock\SmPlatform.BuildingBlock.csproj", "{B8EF65A4-57E3-47D0-BA76-25F799A2CC36}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -3,7 +3,7 @@ using SmPlatform.Model.DataModels;
 using SmPlatform.Model.ViewModels;
 using System.Collections.Specialized;
 
-namespace SmPlatform.Api.Application.Commands;
+namespace SmPlatform.ManagementApi.Application.Commands;
 
 /// <summary>
 /// 更新短信通道命令

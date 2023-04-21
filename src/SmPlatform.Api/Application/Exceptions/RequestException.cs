@@ -1,4 +1,4 @@
-﻿namespace SmPlatform.Api.Application.Exceptions;
+﻿namespace SmPlatform.ManagementApi.Application.Exceptions;
 
 /// <summary>
 /// 请求错误

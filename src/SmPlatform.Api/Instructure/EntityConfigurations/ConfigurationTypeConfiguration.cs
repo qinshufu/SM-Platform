@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SmPlatform.Model.DataModels;
 
-namespace SmPlatform.Api.Instructure.EntityConfigurations;
+namespace SmPlatform.ManagementApi.Instructure.EntityConfigurations;
 
 /// <summary>
 /// 平台配置实体的配置

@@ -1,7 +1,7 @@
 ﻿using SmPlatform.BuildingBlock.Extensions;
 using SmPlatform.Model.ViewModels;
 
-namespace SmPlatform.Api.Application.Queries;
+namespace SmPlatform.ManagementApi.Application.Queries;
 
 /// <summary>
 /// 通道查询

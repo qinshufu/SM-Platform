@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using MassTransit.Mediator;
 using Microsoft.EntityFrameworkCore;
-using SmPlatform.Api.Domain.Repositories;
+using SmPlatform.ManagementApi.Domain.Repositories;
 using SmPlatform.Model.DataModels;
 using SmPlatform.Model.ViewModels;
 
-namespace SmPlatform.Api.Application.Commands;
+namespace SmPlatform.ManagementApi.Application.Commands;
 
 /// <summary>
 /// 短信通道添加命令处理器

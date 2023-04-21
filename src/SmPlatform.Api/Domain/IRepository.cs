@@ -1,6 +1,4 @@
-﻿using System.Runtime.InteropServices;
-
-namespace SmPlatform.Api.Domain;
+﻿namespace SmPlatform.ManagementApi.Domain;
 
 /// <summary>
 /// 仓储

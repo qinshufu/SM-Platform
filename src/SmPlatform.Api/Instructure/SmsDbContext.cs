@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SmPlatform.Api.Domain;
+using SmPlatform.ManagementApi.Domain;
 using SmPlatform.Model.DataModels;
 
-namespace SmPlatform.Api.Instructure;
+namespace SmPlatform.ManagementApi.Instructure;
 
 public class SmsDbContext : DbContext, IUnitWork
 {

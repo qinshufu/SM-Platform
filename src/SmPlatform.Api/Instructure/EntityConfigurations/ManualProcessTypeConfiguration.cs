@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SmPlatform.Model.DataModels;
 
-namespace SmPlatform.Api.Instructure.EntityConfigurations;
+namespace SmPlatform.ManagementApi.Instructure.EntityConfigurations;
 
 /// <summary>
 /// 手工处理记录的配置
