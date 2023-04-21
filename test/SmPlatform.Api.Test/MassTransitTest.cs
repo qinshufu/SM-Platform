@@ -32,7 +32,7 @@ public class MassTransitTest
         mapperMock.Setup(m => m.Map<Channel>(command)).Returns(channel);
         mapperMock.Setup(m => m.Map<ChannelInformation>(channel)).Returns(channelInfo);
 
-        repositoryMock.Setup(m => m.AddAsync(channel)).Returns(Task.FromResult(channel));
+        repositoryMock.Setup(m => m.AddAsync(channel, default)).Returns(Task.FromResult(channel));
 
         var services = new ServiceCollection()
             .AddScoped(ctx => repositoryMock.Object)
