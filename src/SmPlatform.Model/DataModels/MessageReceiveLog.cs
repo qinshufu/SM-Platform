@@ -10,15 +10,12 @@ public record MessageReceiveLog : Entity
 {
     private string _requestParams;
 
+    private string _configurations;
+
     /// <summary>
     /// 接入平台 id
     /// </summary>
     public Guid Platform { get; set; }
-
-    ///// <summary>
-    ///// 接入平台名称
-    ///// </summary>
-    //public string PlatformName { get; set; }
 
     /// <summary>
     /// 业务信息
@@ -28,17 +25,21 @@ public record MessageReceiveLog : Entity
     /// <summary>
     /// 配置
     /// </summary>
-    public List<Channel> Configurations { get; set; }
+    public List<Guid> Configurations
+    {
+        get => JsonSerializer.Deserialize<List<Guid>>(_configurations ?? "[]")!;
+        set => JsonSerializer.Serialize(value);
+    }
 
     /// <summary>
     /// 模板
     /// </summary>
-    public Template Template { get; set; }
+    public Guid Template { get; set; }
 
     /// <summary>
     /// 签名
     /// </summary>
-    public Signature Signature { get; set; }
+    public Guid Signature { get; set; }
 
     /// <summary>
     /// 电话

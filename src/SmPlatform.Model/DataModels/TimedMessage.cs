@@ -13,12 +13,12 @@ public record TimedMessage : Entity
     /// <summary>
     /// 模板
     /// </summary>
-    public Template Template { get; set; }
+    public Guid Template { get; set; }
 
     /// <summary>
     /// 签名
     /// </summary>
-    public Signature Signature { get; set; }
+    public Guid Signature { get; set; }
 
     /// <summary>
     /// 电话

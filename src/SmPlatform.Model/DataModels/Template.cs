@@ -30,10 +30,6 @@ public record Template : Entity
     /// </summary>
     public TemplateCategory Category { get; set; }
 
-    /// <summary>
-    /// 绑定的短信通道
-    /// </summary>
-    public List<Channel> Channels { get; set; }
 }
 
 /// <summary>

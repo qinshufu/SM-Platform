@@ -25,8 +25,4 @@ public record Signature : Entity
     /// </summary>
     public string Remark { get; set; }
 
-    /// <summary>
-    /// 绑定的短信通道
-    /// </summary>
-    public List<Channel> Channels { get; set; }
 }
