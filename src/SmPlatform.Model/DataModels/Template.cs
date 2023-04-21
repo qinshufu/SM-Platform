@@ -29,6 +29,11 @@ public record Template : Entity
     /// 分类
     /// </summary>
     public TemplateCategory Category { get; set; }
+
+    /// <summary>
+    /// 绑定的短信通道
+    /// </summary>
+    public List<Channel> Channels { get; set; }
 }
 
 /// <summary>
