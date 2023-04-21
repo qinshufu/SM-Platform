@@ -1,6 +1,6 @@
 ﻿using MassTransit.Internals;
 using Microsoft.EntityFrameworkCore;
-using SmPlatform.Api.Application.Exceptions;
+using SmPlatform.Api.Domain;
 using SmPlatform.Model.DataModels;
 
 namespace SmPlatform.Api.Instructure.Repositories;
@@ -8,16 +8,43 @@ namespace SmPlatform.Api.Instructure.Repositories;
 /// <summary>
 /// 通道仓储
 /// </summary>
-public class ChannelRepository : Repository<Channel>
+public class ChannelRepository : IChannelRepository
 {
-    public ChannelRepository(SmsDbContext dbContext) : base(dbContext)
+    private readonly SmsDbContext _dbContext;
+
+    public ChannelRepository(SmsDbContext dbContext)
     {
+        _dbContext = dbContext;
     }
 
-    public override async Task<Channel?> GetOrDefaultByIdAsync(Guid id)
+    public IUnitWork UnitWork => _dbContext;
+
+    public async Task<Channel> AddAsync(Channel entity, CancellationToken cancellationToken = default) =>
+        (await _dbContext.AddAsync(entity, cancellationToken)).Entity;
+
+    public Task<long> CountAsync(CancellationToken cancellationToken = default) => _dbContext.Set<Channel>().LongCountAsync(cancellationToken);
+
+    public Task DeleteByIdAsync(Guid id, CancellationToken cancellationToken = default) =>
+        _dbContext.Set<Channel>().Where(c => c.Id == id).ExecuteDeleteAsync();
+
+    public async Task<List<Channel>> GetAllAsync(CancellationToken cancellationToken = default)
     {
 
-        var channel = await base.GetOrDefaultByIdAsync(id);
+        var channels = await _dbContext.Set<Channel>().ToListAsync(cancellationToken);
+
+        foreach (var channel in channels)
+        {
+            await _dbContext.Entry(channel).Collection(c => c.Templates).LoadAsync();
+            await _dbContext.Entry(channel).Collection(c => c.Signatures).LoadAsync();
+        }
+
+        return channels;
+    }
+
+    public async Task<Channel?> FindByIdAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+
+        var channel = await _dbContext.Set<Channel>().SingleOrDefaultAsync(c => c.Id == id);
 
         if (channel is null)
             return null;
@@ -27,4 +54,7 @@ public class ChannelRepository : Repository<Channel>
 
         return channel;
     }
+
+    public Task<Channel> UpdateAsync(Channel entity, CancellationToken cancellationToken = default) =>
+        Task.FromResult(_dbContext.Update(entity).Entity);
 }
