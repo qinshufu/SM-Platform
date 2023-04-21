@@ -48,7 +48,7 @@ public static class ApiResultFactory
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
-    public static ApiResult<T> Fail<T>() => new ApiResult<T>() { Message = "Failed." };
+    public static ApiResult<T> Fail<T>(string message = "Failed.") => new ApiResult<T>() { Message = message };
 
     /// <summary>
     /// 创建成功的 ApiResult 并且不携带数据
