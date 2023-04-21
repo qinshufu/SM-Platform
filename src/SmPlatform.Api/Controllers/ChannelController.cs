@@ -78,5 +78,13 @@ namespace SmPlatform.Api.Controllers
         /// <returns></returns>
         [HttpPut("binding")]
         public Task<ApiResult<ChannelInformation>> UpdateBinding([FromBody] ChannelBindingUpdateCommand command) => _mediator.SendRequest(command);
+
+        /// <summary>
+        /// 删除指定短信通道
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        [HttpDelete("{id:guid}")]
+        public Task<ApiResult> Delete([FromRoute] ChannelDeleteCommand command) => _mediator.SendRequest(command);
     }
 }
