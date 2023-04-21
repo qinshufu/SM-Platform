@@ -17,8 +17,44 @@ public class ConfigurationTypeConfiguration : IEntityTypeConfiguration<Channel>
 
         builder.Property("_otherOptions").UsePropertyAccessMode(PropertyAccessMode.Field).HasColumnName(nameof(Channel.OtherOptions)).HasDefaultValue("{}");
 
-        builder.HasMany(c => c.Templates).WithMany(t => t.Channels);
+        builder.HasMany(c => c.Templates).WithMany().UsingEntity(b =>
+        {
+            b.Property<Guid>("ChannelId");
+            b.Property<Guid?>("TemplateId");
 
-        builder.HasMany(c => c.Signatures).WithMany(s => s.Channels);
+            b.HasKey("ChannelId", "TemplateId");
+
+            b.HasOne(typeof(Channel).FullName!, null)
+                .WithMany()
+                .HasForeignKey("ChannelId")
+                .OnDelete(DeleteBehavior.Cascade);
+
+            b.HasOne(typeof(Template).FullName!, null)
+                .WithMany()
+                .HasForeignKey("TemplateId")
+                .OnDelete(DeleteBehavior.ClientSetNull);
+
+        });
+
+        builder.HasMany(c => c.Signatures).WithMany().UsingEntity(b =>
+        {
+            b.Property<Guid>("ChannelId");
+            b.Property<Guid?>("SignatureId");
+
+            b.HasKey("ChannelId", "SignatureId");
+
+            b.HasOne(typeof(Channel).FullName!, null)
+                .WithMany()
+                .HasForeignKey("ChannelId")
+                .OnDelete(DeleteBehavior.Cascade);
+
+            b.HasOne(typeof(Signature).FullName!, null)
+                .WithMany()
+                .HasForeignKey("SignatureId")
+                .OnDelete(DeleteBehavior.ClientSetNull);
+
+        });
+
+        builder.HasOne(c => c.Platform).WithMany().OnDelete(DeleteBehavior.NoAction);
     }
 }
