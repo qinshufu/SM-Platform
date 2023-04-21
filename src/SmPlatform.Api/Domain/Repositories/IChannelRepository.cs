@@ -1,6 +1,6 @@
 ﻿using SmPlatform.Model.DataModels;
 
-namespace SmPlatform.Api.Domain;
+namespace SmPlatform.Api.Domain.Repositories;
 
 /// <summary>
 /// 通道仓储

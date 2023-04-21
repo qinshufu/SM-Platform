@@ -1,5 +1,5 @@
 ﻿using MassTransit.Mediator;
-using SmPlatform.Api.Domain;
+using SmPlatform.Api.Domain.Repositories;
 
 namespace SmPlatform.Api.Application.Commands;
 
