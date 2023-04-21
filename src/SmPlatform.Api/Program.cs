@@ -4,6 +4,7 @@ using MassTransit;
 using MassTransit.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using SmPlatform.Api.Application.Options;
 using SmPlatform.Api.Instructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -29,13 +30,19 @@ builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory(configu
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 // ≈‰÷√ MassTransit
-builder.Services.AddOptions<RabbitMqHostSettings>().BindConfiguration(nameof(RabbitMqHostSettings));
+builder.Services.AddOptions<RabbitMqOptions>().BindConfiguration(nameof(RabbitMqOptions));
 
 builder.Services.AddMassTransit(configurator =>
 {
     configurator.UsingRabbitMq((ctx, conf) =>
     {
-        conf.Host(ctx.GetRequiredService<IOptions<RabbitMqHostSettings>>().Value);
+        var options = ctx.GetRequiredService<IOptions<RabbitMqOptions>>();
+
+        conf.Host(options.Value.Host, options.Value.VirtualHost, c =>
+        {
+            c.Password(options.Value.Password);
+            c.Username(options.Value.Username);
+        });
     });
 
     configurator.AddMediator(null);
