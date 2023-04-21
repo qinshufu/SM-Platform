@@ -70,5 +70,13 @@ namespace SmPlatform.Api.Controllers
         /// <returns></returns>
         [HttpPut]
         public Task<ApiResult<ChannelInformation>> Update([FromBody] ChannelUpdateCommand command) => _mediator.SendRequest(command);
+
+        /// <summary>
+        /// 更新通道与模板签名绑定
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        [HttpPut("binding")]
+        public Task<ApiResult<ChannelInformation>> UpdateBinding([FromBody] ChannelBindingUpdateCommand command) => _mediator.SendRequest(command);
     }
 }
