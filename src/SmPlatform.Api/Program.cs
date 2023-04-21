@@ -1,7 +1,6 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using MassTransit;
-using MassTransit.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using SmPlatform.Api.Application.Options;
@@ -46,6 +45,8 @@ builder.Services.AddMassTransit(configurator =>
     });
 
     configurator.AddMediator(null);
+
+    configurator.AddConsumers(typeof(Program).Assembly);
 });
 
 var app = builder.Build();
