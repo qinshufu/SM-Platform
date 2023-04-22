@@ -51,9 +51,6 @@ builder.Services.AddMassTransit(configurator =>
 
 var app = builder.Build();
 
-// TODO 安装 Autofac 
-// 注册 仓储服务
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
