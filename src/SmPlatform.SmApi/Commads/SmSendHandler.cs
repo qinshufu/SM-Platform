@@ -65,21 +65,34 @@ public class SmSendHandler : IRequestHandler<SmSendCommand, CommandResult>
     {
         var channel = await _channelRepository.FindAsync(c => c.Platform.AccessKeyId == request.AccessKeyId);
 
-        return (channel, request) switch
-        {
-            (null, _) => (false, "短信通道不存在"),
-            ({ IsActive: false }, _) => (false, "短信通道未被启用"),
-            (_, { Timing: not null }) when request.Timing - request.CreateTime < TimeSpan.FromSeconds(1) =>
-                (false, "作为定时消息，定时发送事件与当前事件太近了"), // 定时消息
-            _ when channel.Platform.AccessKeySecret == request.AccessKeySecret => (false, "无效的短信通道访问密钥"),
-            _ when Regex.IsMatch(request.Phone, @"1[0-9]{10}") => (false, "无效的电话号码"),
-            _ when await _blackListRepository.ExistsAsync(b => b.Account == request.Phone) => (false, "该电话在黑名单中"),
-            _ when await _templateRepository.ExistsAsync(t => t.Id == request.Template) is false => (false, "模板不存在"),
-            _ when await _signatureRepository.ExistsAsync(s => s.Id == request.Signature) is false => (false, "签名不存在"),
-            _ when (await _templateRepository.FindByIdAsync(request.Template))
-                !.VerifyTemplateParams(request.TemplateParams) is false => (false, "模板参数不匹配"),
-            _ => (true, "有效的短信发送请求")
-        };
+        if (channel is null)
+            return (false, "短信通道不存在");
+
+        if (channel.IsActive is false)
+            return (false, "短信通道未被启用");
+
+        if (request.Timing is not null && request.Timing - request.CreateTime < TimeSpan.FromSeconds(1))
+            return (false, "作为定时消息，定时发送事件与当前事件太近了");
+
+        if (channel.Platform.AccessKeySecret == request.AccessKeySecret)
+            return (false, "无效的短信通道访问密钥");
+
+        if (!Regex.IsMatch(request.Phone, @"1[0-9]{10}"))
+            return (false, "无效的电话号码");
+
+        if (await _blackListRepository.ExistsAsync(b => b.Account == request.Phone))
+            return (false, "该电话在黑名单中");
+
+        if (await _templateRepository.ExistsAsync(t => t.Id == request.Template) is false)
+            return (false, "模板不存在");
+
+        if (await _signatureRepository.ExistsAsync(s => s.Id == request.Signature) is false)
+            return (false, "签名不存在");
+
+        if ((await _templateRepository.FindByIdAsync(request.Template))?.VerifyTemplateParams(request.TemplateParams) is false)
+            return (false, "模板参数不匹配");
+
+        return (true, "有效的短信发送请求");
     }
 
 }
