@@ -4,7 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using SmPlatform.Instructure.EntityFramework;
 using SmPlatform.SmApi;
 using SmPlatform.SmApi.Commads;
-
+using MassTransit;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +24,25 @@ builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory(configu
 
     //configurator.RegisterAssemblyModules(typeof(Program).Assembly);
 }));
+
+// Masstransit ≈‰÷√
+builder.Services.AddOptions<RabbitMqTransportOptions>().BindConfiguration("RabbitMQ");
+
+builder.Services.AddMassTransit(configurator =>
+{
+    configurator.UsingRabbitMq((ctx, c) =>
+    {
+        var options = ctx.GetRequiredService<IOptions<RabbitMqTransportOptions>>() ?? Options.Create(new RabbitMqTransportOptions());
+
+        c.Host(options.Value.Host, options.Value.VHost, cfg =>
+        {
+            cfg.Password(options.Value.Pass);
+            cfg.Username(options.Value.User);
+        });
+    });
+});
+
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 var app = builder.Build();
 

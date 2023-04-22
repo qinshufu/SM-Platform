@@ -17,12 +17,12 @@ public class SmSendCommand : IRequest<CommandResult>
     /// <summary>
     /// 模板
     /// </summary>
-    public string Template { get; set; }
+    public Guid Template { get; set; }
 
     /// <summary>
     /// 签名
     /// </summary>
-    public string Signature { get; set; }
+    public Guid Signature { get; set; }
 
     /// <summary>
     /// 模板参数
