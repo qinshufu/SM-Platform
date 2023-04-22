@@ -26,16 +26,6 @@ public class ChannelAddCommand : Request<ApiResult<ChannelInformation>>
     public string Domain { get; set; }
 
     /// <summary>
-    /// 密钥
-    /// </summary>
-    public string AccessKeySecret { get; set; }
-
-    /// <summary>
-    /// 密钥 key
-    /// </summary>
-    public string AccessKeyId { get; set; }
-
-    /// <summary>
     /// 其他配置
     /// </summary>
     public NameValueCollection OtherOptions { get; set; }
