@@ -1,4 +1,7 @@
-﻿namespace SmPlatform.Domain.DataModels;
+﻿using System.Collections.Specialized;
+using System.Text.RegularExpressions;
+
+namespace SmPlatform.Domain.DataModels;
 
 /// <summary>
 /// 模板
@@ -29,6 +32,15 @@ public record Template : Entity
     /// 分类
     /// </summary>
     public TemplateCategory Category { get; set; }
+
+    public bool VerifyTemplateParams(NameValueCollection @params)
+    {
+        var paramNames = Regex.Matches(Content, @"{(?<name>\w+)}").Where(m => m.Success).Select(m => m.Groups["name"].Value);
+        var customParamNames = @params;
+
+        // 是否传入的参数包含了模板所需的所有参数
+        return paramNames.Any(n => customParamNames.Get(n) is null) is false;
+    }
 
 }
 

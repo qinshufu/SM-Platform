@@ -21,6 +21,13 @@ public interface IChannelRepository : IRepository<Channel>
     Task<bool> ExistsAsync(Expression<Func<Channel, bool>> expression);
 
     /// <summary>
+    /// 根据条件获取短信通道
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    Task<Channel> FindAsync(Expression<Func<Channel, bool>> value);
+
+    /// <summary>
     /// 获取全部的通道实体
     /// </summary>
     /// <param name="cancellationToken"></param>
