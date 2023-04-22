@@ -69,7 +69,8 @@ public class SmSendHandler : IRequestHandler<SmSendCommand, CommandResult>
         {
             (null, _) => (false, "短信通道不存在"),
             ({ IsActive: false }, _) => (false, "短信通道未被启用"),
-            (_, { Timing: not null }) when request.Timing - request.CreateTime < TimeSpan.FromSeconds(1) => (false, ""), // 定时消息
+            (_, { Timing: not null }) when request.Timing - request.CreateTime < TimeSpan.FromSeconds(1) =>
+                (false, "作为定时消息，定时发送事件与当前事件太近了"), // 定时消息
             _ when channel.Platform.AccessKeySecret == request.AccessKeySecret => (false, "无效的短信通道访问密钥"),
             _ when Regex.IsMatch(request.Phone, @"1[0-9]{10}") => (false, "无效的电话号码"),
             _ when await _blackListRepository.ExistsAsync(b => b.Account == request.Phone) => (false, "该电话在黑名单中"),
