@@ -1,13 +1,28 @@
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
+using SmPlatform.Instructure.EntityFramework;
 using SmPlatform.SmApi;
 using SmPlatform.SmApi.Commads;
-using SmPlatform.SmApi.ViewModel;
+
+
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddScoped<SmSendCommandValidator>();
-builder.Services.AddScoped<SmBatchSendCommandValidator>();
 builder.Services.AddScoped<SmSendHandler>();
 
 builder.Services.AddMediatR(c => c.RegisterServicesFromAssembly(typeof(Program).Assembly));
+
+builder.Services.AddDbContext<SmsDbContext>(optionsBuilder => optionsBuilder.UseSqlServer(builder.Configuration.GetConnectionString("default")));
+
+// ÅäÖÃ Autofac 
+builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory(configurator =>
+{
+    configurator.RegisterAssemblyTypes(typeof(Program).Assembly).AsImplementedInterfaces().InstancePerLifetimeScope();
+
+    configurator.RegisterAssemblyTypes(typeof(SmsDbContext).Assembly).AsImplementedInterfaces().InstancePerLifetimeScope();
+
+    //configurator.RegisterAssemblyModules(typeof(Program).Assembly);
+}));
 
 var app = builder.Build();
 

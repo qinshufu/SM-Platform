@@ -5,6 +5,7 @@ using System.Text.Json;
 using System.Text;
 using SmPlatform.SmApi.Commads;
 using MediatR;
+using FluentValidation;
 
 namespace SmPlatform.SmApi;
 
@@ -16,15 +17,15 @@ public class SmRequestHandler
 
     const int MAX_BODY_SIZE = 2 * 1024 * 1024; // 2MB
 
-    private readonly SmSendCommandValidator _smSendValidator;
-
-    private readonly SmBatchSendCommandValidator _smBatchSendValidator;
-
     private readonly IMediator _mediator;
 
+    private readonly IValidator<SmSendCommand> _smSendValidator;
+
+    private readonly IValidator<SmBatchSendCommand> _smBatchSendValidator;
+
     public SmRequestHandler(
-        SmSendCommandValidator smSendValidator,
-        SmBatchSendCommandValidator smBatchSendValidator,
+        IValidator<SmSendCommand> smSendValidator,
+        IValidator<SmBatchSendCommand> smBatchSendValidator,
         IMediator mediator)
     {
         _smSendValidator = smSendValidator;
