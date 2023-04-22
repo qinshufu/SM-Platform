@@ -66,4 +66,6 @@ public class ChannelRepository : IChannelRepository
     /// <returns></returns>
     /// <exception cref="NotImplementedException"></exception>
     public Task<bool> ExistsAsync(Expression<Func<Channel, bool>> expression) => _dbContext.Set<Channel>().AnyAsync(expression);
+
+    public Task<Channel> FindAsync(Expression<Func<Channel, bool>> value) => _dbContext.Set<Channel>().FirstAsync(value);
 }
