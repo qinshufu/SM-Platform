@@ -1,13 +1,16 @@
-﻿using SmPlatform.Domain.DataModels;
-using System.Collections.Specialized;
+﻿using System.Collections.Specialized;
+using System.Text.Json;
 
-namespace SmPlatform.Model.ViewModels;
+namespace SmPlatform.Domain.DataModels;
 
 /// <summary>
-/// 频道信息
+/// 短信通道配置
 /// </summary>
-public record ChannelInformation : EntityBasicInfo
+public record Channel : Entity
 {
+
+    private string _otherOptions;
+
     /// <summary>
     /// 名称
     /// </summary>
@@ -46,7 +49,11 @@ public record ChannelInformation : EntityBasicInfo
     /// <summary>
     /// 其他配置
     /// </summary>
-    public NameValueCollection OtherOptions { get; set; }
+    public NameValueCollection OtherOptions
+    {
+        get => JsonSerializer.Deserialize<NameValueCollection>(_otherOptions ?? "{}")!;
+        set => _otherOptions = JsonSerializer.Serialize(value);
+    }
 
     /// <summary>
     /// 是否可用
@@ -72,5 +79,25 @@ public record ChannelInformation : EntityBasicInfo
     /// 消息内容类型
     /// </summary>
     public MessageValueType MessageValueType { get; set; }
+}
 
+/// <summary>
+/// 消息内容类型
+/// </summary>
+public enum MessageValueType
+{
+    /// <summary>
+    /// 文字
+    /// </summary>
+    Text = 0,
+
+    /// <summary>
+    /// 语音
+    /// </summary>
+    Voice,
+
+    /// <summary>
+    /// 推送
+    /// </summary>
+    Push
 }

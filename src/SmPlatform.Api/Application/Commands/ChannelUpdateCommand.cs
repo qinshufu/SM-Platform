@@ -1,5 +1,5 @@
 ﻿using MassTransit.Mediator;
-using SmPlatform.Model.DataModels;
+using SmPlatform.Domain.DataModels;
 using SmPlatform.Model.ViewModels;
 using System.Collections.Specialized;
 

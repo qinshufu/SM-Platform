@@ -3,10 +3,10 @@ using MassTransit;
 using MassTransit.Mediator;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
+using SmPlatform.Domain;
+using SmPlatform.Domain.DataModels;
+using SmPlatform.Domain.Repositories;
 using SmPlatform.ManagementApi.Application.Commands;
-using SmPlatform.ManagementApi.Domain;
-using SmPlatform.ManagementApi.Domain.Repositories;
-using SmPlatform.Model.DataModels;
 using SmPlatform.Model.ViewModels;
 
 namespace SmPlatform.Api.Test;

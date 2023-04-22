@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
 using MassTransit.Mediator;
-using Microsoft.EntityFrameworkCore;
-using SmPlatform.ManagementApi.Domain.Repositories;
-using SmPlatform.Model.DataModels;
+using SmPlatform.Domain.DataModels;
+using SmPlatform.Domain.Repositories;
 using SmPlatform.Model.ViewModels;
 
 namespace SmPlatform.ManagementApi.Application.Commands;

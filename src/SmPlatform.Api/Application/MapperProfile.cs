@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using SmPlatform.ManagementApi.Application.Commands;
 using SmPlatform.BuildingBlock.Extensions;
-using SmPlatform.Model.DataModels;
 using SmPlatform.Model.ViewModels;
+using SmPlatform.Domain.DataModels;
 
 namespace SmPlatform.ManagementApi.Application;
 

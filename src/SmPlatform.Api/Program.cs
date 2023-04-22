@@ -3,8 +3,8 @@ using Autofac.Extensions.DependencyInjection;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using SmPlatform.Instructure.EntityFramework;
 using SmPlatform.ManagementApi.Application.Options;
-using SmPlatform.ManagementApi.Instructure;
 
 var builder = WebApplication.CreateBuilder(args);
 

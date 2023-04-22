@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using SmPlatform.ManagementApi.Application.Exceptions;
-using SmPlatform.ManagementApi.Instructure;
 using SmPlatform.BuildingBlock.Extensions;
-using SmPlatform.Model.DataModels;
 using SmPlatform.Model.ViewModels;
+using SmPlatform.Instructure.EntityFramework;
+using SmPlatform.Domain.DataModels;
 
 namespace SmPlatform.ManagementApi.Application.Queries;
 

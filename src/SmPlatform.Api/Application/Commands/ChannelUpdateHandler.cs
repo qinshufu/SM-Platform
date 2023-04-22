@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using MassTransit.Mediator;
+using SmPlatform.Domain.DataModels;
+using SmPlatform.Domain.Repositories;
 using SmPlatform.ManagementApi.Application.Exceptions;
-using SmPlatform.ManagementApi.Domain.Repositories;
-using SmPlatform.Model.DataModels;
 using SmPlatform.Model.ViewModels;
 using System.Reflection;
 
