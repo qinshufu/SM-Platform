@@ -1,39 +1,21 @@
-using System.Net;
-
+using SmPlatform.SmApi;
+using SmPlatform.SmApi.Commads;
+using SmPlatform.SmApi.ViewModel;
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddScoped<SmSendCommandValidator>();
+builder.Services.AddScoped<SmBatchSendCommandValidator>();
+builder.Services.AddScoped<SmSendHandler>();
+
+builder.Services.AddMediatR(c => c.RegisterServicesFromAssembly(typeof(Program).Assembly));
+
 var app = builder.Build();
 
-app.MapPost("/send", async ctx =>
+app.MapPost("/send", ctx =>
 {
-    const int MAX_BODY_SIZE = 2 * 1024 * 1024; // 2MB
+    var handler = ctx.RequestServices.GetRequiredService<SmRequestHandler>();
 
-    if (ctx.Request.Body.Length > MAX_BODY_SIZE)
-    {
-        ctx.Response.StatusCode = (int)HttpStatusCode.RequestEntityTooLarge;
-        return;
-    }
-
-    var bodyReader = new StreamReader(ctx.Request.Body);
-
-    if (TryParseRequestParams(ctx, out var @params))
-    {
-        await SendSmAsync(@params);
-
-        ctx.Response.StatusCode = (int)HttpStatusCode.OK;
-        return;
-    }
-
-    ctx.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+    return handler.HandleAsync(ctx);
 });
-
-Task SendSmAsync(object @params)
-{
-    throw new NotImplementedException();
-}
-
-bool TryParseRequestParams(HttpContext ctx, out object @params)
-{
-    throw new NotImplementedException();
-}
 
 app.Run();
