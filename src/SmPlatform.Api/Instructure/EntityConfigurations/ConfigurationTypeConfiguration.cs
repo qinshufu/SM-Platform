@@ -55,6 +55,6 @@ public class ConfigurationTypeConfiguration : IEntityTypeConfiguration<Channel>
 
         });
 
-        builder.HasOne(c => c.Platform).WithMany().OnDelete(DeleteBehavior.NoAction);
+        builder.HasOne(c => c.Platform).WithMany().OnDelete(DeleteBehavior.Cascade);
     }
 }
