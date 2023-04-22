@@ -9,7 +9,7 @@ namespace SmPlatform.SmApi;
 /// </summary>
 public class MapperProfile : Profile
 {
-    protected MapperProfile()
+    public MapperProfile()
     {
         CreateMap<SmSendCommand, SmsSendingScheduledEvent>();
     }

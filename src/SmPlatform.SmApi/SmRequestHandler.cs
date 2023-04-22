@@ -44,7 +44,10 @@ public class SmRequestHandler
             return;
         }
 
-        var (parseSuccess, data) = await TryParseRequestParamsAsync(ctx);
+        var result = await ctx.Request.BodyReader.ReadAsync();
+        var json = Encoding.UTF8.GetString(result.Buffer);
+
+        var (parseSuccess, data) = TryParseRequestParams(json);
 
         if (parseSuccess)
         {
@@ -76,16 +79,13 @@ public class SmRequestHandler
         await response.BodyWriter.WriteAsync(Encoding.UTF8.GetBytes(body));
     }
 
-    async Task<(bool ParseSuccess, object? Value)> TryParseRequestParamsAsync(HttpContext ctx)
+    (bool ParseSuccess, object? Value) TryParseRequestParams(string content)
     {
-        var result = await ctx.Request.BodyReader.ReadAsync();
-        var json = Encoding.UTF8.GetString(result.Buffer);
-
         var command = default(object);
 
         try
         {
-            var data = JsonSerializer.Deserialize<SmSendCommand>(json);
+            var data = JsonSerializer.Deserialize<SmSendCommand>(content);
 
             if (_smSendValidator.Validate(data).IsValid)
             {
@@ -96,7 +96,7 @@ public class SmRequestHandler
         {
             try
             {
-                var data = JsonSerializer.Deserialize<SmBatchSendCommand>(json);
+                var data = JsonSerializer.Deserialize<SmBatchSendCommand>(content);
 
                 if (_smBatchSendValidator.Validate(data).IsValid)
                 {
