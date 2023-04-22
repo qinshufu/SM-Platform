@@ -22,6 +22,8 @@ builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory(configu
 {
     configurator.RegisterAssemblyTypes(typeof(Program).Assembly).AsImplementedInterfaces().InstancePerLifetimeScope();
 
+    configurator.RegisterAssemblyTypes(typeof(SmsDbContext).Assembly).AsImplementedInterfaces().InstancePerLifetimeScope();
+
     //configurator.RegisterAssemblyModules(typeof(Program).Assembly);
 }));
 
