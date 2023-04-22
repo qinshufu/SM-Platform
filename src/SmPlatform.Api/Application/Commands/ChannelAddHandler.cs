@@ -33,6 +33,10 @@ public class ChannelAddHandler : MediatorRequestHandler<ChannelAddCommand, ApiRe
         if (channel.Level != rank)
             throw new InvalidOperationException("long -> int 的类型转换损失");
 
+        // 验证密钥 ID 的唯一性
+        if (await _channelRepository.ExistsAsync(c => c.Platform.AccessKeyId == request.Platform.AccessKeyId))
+            return ApiResultFactory.Fail<ChannelInformation>("密钥 ID 已经存在");
+
 
         var result = _mapper.Map<ChannelInformation>(await _channelRepository.AddAsync(channel));
 

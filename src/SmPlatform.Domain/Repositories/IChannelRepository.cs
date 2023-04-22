@@ -1,4 +1,5 @@
 ﻿using SmPlatform.Domain.DataModels;
+using System.Linq.Expressions;
 
 namespace SmPlatform.Domain.Repositories;
 
@@ -12,6 +13,12 @@ public interface IChannelRepository : IRepository<Channel>
     /// </summary>
     /// <returns></returns>
     Task<long> CountAsync(CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// 根据条件判断制定通道是否存在
+    /// </summary>
+    /// <returns></returns>
+    Task<bool> ExistsAsync(Expression<Func<Channel, bool>> expression);
 
     /// <summary>
     /// 获取全部的通道实体

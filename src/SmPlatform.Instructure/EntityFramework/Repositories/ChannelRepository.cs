@@ -2,6 +2,7 @@
 using SmPlatform.Domain;
 using SmPlatform.Domain.DataModels;
 using SmPlatform.Domain.Repositories;
+using System.Linq.Expressions;
 
 namespace SmPlatform.Instructure.EntityFramework.Repositories;
 
@@ -57,4 +58,12 @@ public class ChannelRepository : IChannelRepository
 
     public Task<Channel> UpdateAsync(Channel entity, CancellationToken cancellationToken = default) =>
         Task.FromResult(_dbContext.Update(entity).Entity);
+
+    /// <summary>
+    /// 根据条件判断是否存在
+    /// </summary>
+    /// <param name="expression"></param>
+    /// <returns></returns>
+    /// <exception cref="NotImplementedException"></exception>
+    public Task<bool> ExistsAsync(Expression<Func<Channel, bool>> expression) => _dbContext.Set<Channel>().AnyAsync(expression);
 }
