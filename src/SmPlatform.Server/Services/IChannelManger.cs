@@ -31,10 +31,18 @@ namespace SmPlatform.Server.Services
         /// <returns></returns>
         Task FlagSendingSuccessedAsync(Channel channel, CancellationToken cancellationToken = default);
 
+        ///// <summary>
+        ///// 根据通道加载短信发送器
+        ///// </summary>
+        ///// <returns></returns>
+        //Task<ISmSender> LoadSmSenderAsync(Channel channel, CancellationToken cancellationToken = default);
+
         /// <summary>
-        /// 根据通道加载短信发送器
+        /// 根据通道加载平台
         /// </summary>
+        /// <param name="channel"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task<ISmSender> LoadSmSenderAsync(Channel channel, CancellationToken cancellationToken = default);
+        Task<IPlatformService> LoadPlatformAsync(Channel channel, CancellationToken cancellationToken = default);
     }
 }
