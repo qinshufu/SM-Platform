@@ -42,7 +42,12 @@ public record TimedMessage : Entity
     public string Remark { get; set; }
 
     /// <summary>
-    /// 发送时间
+    /// 实际发送时间
     /// </summary>
-    public DateTime SendTime { get; set; }
+    public DateTime SendedTime { get; set; }
+
+    /// <summary>
+    /// 计划发送时间
+    /// </summary>
+    public DateTime ScheduledTime { get; set; }
 }
