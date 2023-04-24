@@ -41,9 +41,14 @@ namespace SmPlatform.Server.Commands
 
             channels = channels.OrderBy(c => c.Level).ToList();
 
-            _ = channels
+            var result = channels
                 .Select(async c => (Sended: await SendWithRetryAsync(request, c, cancellationToken), Channel: c))
                 .FirstOrDefault(task => task.Result.Sended);
+
+            if (result?.Result.Sended is null or false)
+            {
+                _logger.LogWarning("在尝试了多个通道以后，消息仍未发送成功: \n" + request);
+            }
         }
 
         private async Task<bool> SendWithRetryAsync(InstantSmScheduleCommand request, Channel channel, CancellationToken cancellationToken)
