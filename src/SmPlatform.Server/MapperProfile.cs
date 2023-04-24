@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using SmPlatform.Domain.DataModels;
 using SmPlatform.Domain.Events;
 using SmPlatform.Server.Models;
 
@@ -12,6 +13,7 @@ namespace SmPlatform.Server
         public MapperProfile()
         {
             CreateMap<SmsSendingScheduledEvent, ShortMessage>();
+            CreateMap<SmsSendingScheduledEvent, TimedMessage>().ForMember(m => m.ScheduledTime, o => o.MapFrom(e => e.Timing));
         }
     }
 }
