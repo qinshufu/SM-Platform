@@ -14,6 +14,7 @@ namespace SmPlatform.Server
         {
             CreateMap<SmsSendingScheduledEvent, ShortMessage>();
             CreateMap<SmsSendingScheduledEvent, TimedMessage>().ForMember(m => m.ScheduledTime, o => o.MapFrom(e => e.Timing));
+            CreateMap<TimedMessage, ShortMessage>();
         }
     }
 }
