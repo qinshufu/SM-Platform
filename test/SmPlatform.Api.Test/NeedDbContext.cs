@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SmPlatform.Api.Instructure;
+using SmPlatform.Instructure.EntityFramework;
 
 namespace SmPlatform.Api.Test;
 

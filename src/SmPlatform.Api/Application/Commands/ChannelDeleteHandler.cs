@@ -1,7 +1,7 @@
 ﻿using MassTransit.Mediator;
-using SmPlatform.Api.Domain.Repositories;
+using SmPlatform.Domain.Repositories;
 
-namespace SmPlatform.Api.Application.Commands;
+namespace SmPlatform.ManagementApi.Application.Commands;
 
 /// <summary>
 /// 短信通道删除命令

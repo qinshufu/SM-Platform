@@ -3,8 +3,8 @@ using Autofac.Extensions.DependencyInjection;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using SmPlatform.Api.Application.Options;
-using SmPlatform.Api.Instructure;
+using SmPlatform.Instructure.EntityFramework;
+using SmPlatform.ManagementApi.Application.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +21,8 @@ builder.Services.AddDbContext<SmsDbContext>(optionsBuilder => optionsBuilder.Use
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory(configurator =>
 {
     configurator.RegisterAssemblyTypes(typeof(Program).Assembly).AsImplementedInterfaces().InstancePerLifetimeScope();
+
+    configurator.RegisterAssemblyTypes(typeof(SmsDbContext).Assembly).AsImplementedInterfaces().InstancePerLifetimeScope();
 
     //configurator.RegisterAssemblyModules(typeof(Program).Assembly);
 }));

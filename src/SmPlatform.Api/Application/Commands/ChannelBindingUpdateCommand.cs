@@ -1,7 +1,7 @@
 ﻿using MassTransit.Mediator;
 using SmPlatform.Model.ViewModels;
 
-namespace SmPlatform.Api.Application.Commands;
+namespace SmPlatform.ManagementApi.Application.Commands;
 
 /// <summary>
 /// 更新通道与模板签名绑定的命令

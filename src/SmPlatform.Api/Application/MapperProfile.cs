@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
-using SmPlatform.Api.Application.Commands;
+using SmPlatform.ManagementApi.Application.Commands;
 using SmPlatform.BuildingBlock.Extensions;
-using SmPlatform.Model.DataModels;
 using SmPlatform.Model.ViewModels;
+using SmPlatform.Domain.DataModels;
 
-namespace SmPlatform.Api.Application;
+namespace SmPlatform.ManagementApi.Application;
 
 /// <summary>
 /// AutoMapper 配置

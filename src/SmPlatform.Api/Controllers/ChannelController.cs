@@ -1,14 +1,13 @@
 ﻿using MassTransit;
 using MassTransit.Mediator;
 using Microsoft.AspNetCore.Mvc;
-using SmPlatform.Api.Application;
-using SmPlatform.Api.Application.Commands;
-using SmPlatform.Api.Application.Queries;
+using SmPlatform.ManagementApi.Application;
+using SmPlatform.ManagementApi.Application.Commands;
+using SmPlatform.ManagementApi.Application.Queries;
 using SmPlatform.BuildingBlock.Extensions;
 using SmPlatform.Model.ViewModels;
-using System.Collections.Specialized;
 
-namespace SmPlatform.Api.Controllers
+namespace SmPlatform.ManagementApi.Controllers
 {
     /// <summary>
     /// 短信通道

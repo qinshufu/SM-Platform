@@ -1,4 +1,4 @@
-﻿namespace SmPlatform.Api.Application.Options;
+﻿namespace SmPlatform.ManagementApi.Application.Options;
 
 /// <summary>
 /// RabbitMQ 配置

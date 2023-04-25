@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using SmPlatform.Api.Application.Exceptions;
-using SmPlatform.Api.Instructure;
+using SmPlatform.ManagementApi.Application.Exceptions;
 using SmPlatform.BuildingBlock.Extensions;
-using SmPlatform.Model.DataModels;
 using SmPlatform.Model.ViewModels;
+using SmPlatform.Instructure.EntityFramework;
+using SmPlatform.Domain.DataModels;
 
-namespace SmPlatform.Api.Application.Queries;
+namespace SmPlatform.ManagementApi.Application.Queries;
 
 /// <summary>
 /// 通道查询

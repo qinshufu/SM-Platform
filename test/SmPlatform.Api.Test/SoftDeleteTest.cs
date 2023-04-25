@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using SmPlatform.Model.DataModels;
+using SmPlatform.Domain.DataModels;
 
 namespace SmPlatform.Api.Test;
 

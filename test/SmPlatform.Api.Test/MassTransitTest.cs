@@ -3,9 +3,10 @@ using MassTransit;
 using MassTransit.Mediator;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using SmPlatform.Api.Application.Commands;
-using SmPlatform.Api.Domain.Repositories;
-using SmPlatform.Model.DataModels;
+using SmPlatform.Domain;
+using SmPlatform.Domain.DataModels;
+using SmPlatform.Domain.Repositories;
+using SmPlatform.ManagementApi.Application.Commands;
 using SmPlatform.Model.ViewModels;
 
 namespace SmPlatform.Api.Test;
@@ -33,6 +34,7 @@ public class MassTransitTest
         mapperMock.Setup(m => m.Map<ChannelInformation>(channel)).Returns(channelInfo);
 
         repositoryMock.Setup(m => m.AddAsync(channel, default)).Returns(Task.FromResult(channel));
+        repositoryMock.SetupGet(m => m.UnitWork).Returns(new Mock<IUnitWork>().Object);
 
         var services = new ServiceCollection()
             .AddScoped(ctx => repositoryMock.Object)

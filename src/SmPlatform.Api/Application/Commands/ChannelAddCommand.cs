@@ -1,9 +1,9 @@
 ﻿using MassTransit.Mediator;
-using SmPlatform.Model.DataModels;
+using SmPlatform.Domain.DataModels;
 using SmPlatform.Model.ViewModels;
 using System.Collections.Specialized;
 
-namespace SmPlatform.Api.Application.Commands;
+namespace SmPlatform.ManagementApi.Application.Commands;
 
 /// <summary>
 /// 添加通道命令
@@ -24,16 +24,6 @@ public class ChannelAddCommand : Request<ApiResult<ChannelInformation>>
     /// 域名
     /// </summary>
     public string Domain { get; set; }
-
-    /// <summary>
-    /// 密钥
-    /// </summary>
-    public string AccessKeySecret { get; set; }
-
-    /// <summary>
-    /// 密钥 key
-    /// </summary>
-    public string AccessKeyId { get; set; }
 
     /// <summary>
     /// 其他配置

@@ -1,4 +1,4 @@
-﻿using SmPlatform.Model.DataModels;
+﻿using SmPlatform.Domain.DataModels;
 using System.Collections.Specialized;
 
 namespace SmPlatform.Model.ViewModels;
