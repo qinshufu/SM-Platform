@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using EntityFrameworkCore.Cacheable;
+using Microsoft.EntityFrameworkCore;
 using SmPlatform.Domain;
 using SmPlatform.Domain.DataModels;
 using SmPlatform.Domain.Repositories;
@@ -31,7 +32,12 @@ public class ChannelRepository : IChannelRepository
     public async Task<List<Channel>> GetAllAsync(CancellationToken cancellationToken = default)
     {
 
-        var channels = await _dbContext.Set<Channel>().ToListAsync(cancellationToken);
+        var channels = await _dbContext.Set<Channel>()
+            .Include(c => c.Platform)
+            .Include(c => c.Templates)
+            .Include(c => c.Signatures)
+            .Cacheable(new CacheableOptions() { CacheEmptyResult = true, CacheNullResult = true, TimeToLive = TimeSpan.FromMinutes(5) })
+            .ToListAsync(cancellationToken);
 
         foreach (var channel in channels)
         {
