@@ -9,6 +9,8 @@
   <ItemGroup>
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="8.0.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+    <PackageReference Include="DotNetty.Codecs" Version="0.7.5" />
+    <PackageReference Include="DotNetty.Handlers" Version="0.7.5" />
     <PackageReference Include="FluentValidation" Version="11.5.2" />
     <PackageReference Include="MassTransit.RabbitMQ" Version="8.0.14" />
     <PackageReference Include="MediatR" Version="12.0.1" />
