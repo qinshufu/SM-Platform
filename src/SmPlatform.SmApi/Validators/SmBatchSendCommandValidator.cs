@@ -9,7 +9,7 @@ namespace SmPlatform.SmApi.ViewModel;
 public class SmBatchSendCommandValidator : AbstractValidator<SmBatchSendCommand>
 {
 
-    public SmBatchSendCommandValidator(SmSendCommandValidator validator)
+    public SmBatchSendCommandValidator(IValidator<SmSendCommand> validator)
     {
         RuleFor(c => c.BatchCode).MinimumLength(8).WithMessage("无效的批次号码");
 
