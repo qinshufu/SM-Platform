@@ -22,7 +22,7 @@ public class AbstractRepository<T> : IRepository<T> where T : Entity
         (await _dbContext.Set<T>().AddAsync(entity, cancellationToken)).Entity;
 
     public async Task DeleteByIdAsync(Guid id, CancellationToken cancellationToken = default) =>
-        _ = (await _dbContext.Set<T>().Where(t => t.Id == id).ExecuteDeleteAsync(cancellationToken));
+        _ = (await _dbContext.Set<T>().Where(t => t.Id == id).ExecuteUpdateAsync(c => c.SetProperty(t => t.IsDeleted, true)));
 
     public Task<T?> FindByIdAsync(Guid id, CancellationToken cancellationToken = default) =>
         _dbContext.Set<T>().SingleOrDefaultAsync(t => t.Id == id, cancellationToken);
