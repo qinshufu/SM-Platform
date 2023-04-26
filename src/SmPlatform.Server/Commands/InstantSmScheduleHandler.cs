@@ -16,20 +16,20 @@ namespace SmPlatform.Server.Commands
     public class InstantSmScheduleHandler : MediatorRequestHandler<InstantSmScheduleCommand>
     {
 
-        private readonly ISmSender _smSender;
-
         private readonly ILogger<InstantSmScheduleCommand> _logger;
 
         private readonly IMapper _mapper;
 
+        private readonly ISmSharedQueue _smQueue;
+
         public InstantSmScheduleHandler(
-            ISmSender smSender,
+            ISmSharedQueue smQueue,
             ILogger<InstantSmScheduleCommand> logger,
             IMapper mapper)
         {
-            _smSender = smSender;
             _logger = logger;
             _mapper = mapper;
+            _smQueue = smQueue;
         }
 
         protected override async Task Handle(InstantSmScheduleCommand request, CancellationToken cancellationToken)
@@ -38,7 +38,7 @@ namespace SmPlatform.Server.Commands
 
             var msg = _mapper.Map<ShortMessage>(request);
 
-            await _smSender.SendAsync(msg);
+            await _smQueue.EnqueueAsync(msg, cancellationToken);
         }
 
     }

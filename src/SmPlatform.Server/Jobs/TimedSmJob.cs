@@ -3,7 +3,6 @@ using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
 using Quartz;
 using SmPlatform.Domain.Repositories;
-using SmPlatform.Instructure.EntityFramework;
 using SmPlatform.Server.Models;
 using SmPlatform.Server.Services;
 
@@ -20,11 +19,14 @@ namespace SmPlatform.Server.Jobs
 
         private readonly IServiceScopeFactory _scopeFactory;
 
-        public TimedSmJob(ITimedSmRepository timedSmRepository, IMapper mapper, IServiceScopeFactory scopeFactory)
+        private readonly ISmSharedQueue _smQueue;
+
+        public TimedSmJob(ITimedSmRepository timedSmRepository, IMapper mapper, IServiceScopeFactory scopeFactory, ISmSharedQueue smQueue)
         {
             _timedSmRepository = timedSmRepository;
             _mapper = mapper;
             _scopeFactory = scopeFactory;
+            _smQueue = smQueue;
         }
 
         public async Task Execute(IJobExecutionContext context)
@@ -35,21 +37,16 @@ namespace SmPlatform.Server.Jobs
             var sendingTasks = messagesForExcution
                 .Select(async m =>
                 {
-                    // 多线程发送，同时注意线程安全问题
-                    using var scope = _scopeFactory.CreateAsyncScope();
-                    var sender = scope.ServiceProvider.GetRequiredService<ISmSender>();
+                    await _smQueue.EnqueueAsync(_mapper.Map<ShortMessage>(m));
 
-                    return (m.Id, Sended: await sender.SendAsync(_mapper.Map<ShortMessage>(m))); ;
+                    return m.Id;
                 })
                 .Select(task => task.ContinueWith(async t =>
                 {
-                    if (t.Result.Sended is false)
-                        return;
-
                     using var scope = _scopeFactory.CreateAsyncScope();
                     var repo = scope.ServiceProvider.GetRequiredService<ITimedSmRepository>();
 
-                    await repo.DeleteByIdAsync(task.Result.Id);
+                    await repo.DeleteByIdAsync(task.Result);
                     await repo.UnitWork.SaveEntitiesAsync();
 
                 }, TaskContinuationOptions.OnlyOnRanToCompletion))

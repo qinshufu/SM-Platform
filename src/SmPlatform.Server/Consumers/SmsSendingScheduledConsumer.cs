@@ -1,9 +1,11 @@
 ﻿using MassTransit;
 using MassTransit.Mediator;
 using Microsoft.Extensions.Logging;
+using Polly;
 using SmPlatform.Domain.Events;
 using SmPlatform.Instructure.Distribution;
 using SmPlatform.Server.Commands;
+using SmPlatform.Server.Services;
 
 namespace SmPlatform.Server.Consumers;
 
@@ -17,7 +19,7 @@ public class SmsSendingScheduledConsumer : IConsumer<SmsSendingScheduledEvent>
     private readonly ILogger<SmsSendingScheduledConsumer> _logger;
 
     private readonly IMediator _mediator;
-
+    
     public SmsSendingScheduledConsumer(
         IDistributedLockManager lockManager, ILogger<SmsSendingScheduledConsumer> logger, IMediator mediator)
     {

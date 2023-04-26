@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Quartz;
 using SmPlatform.Instructure.EntityFramework;
+using SmPlatform.Server.Job;
 using SmPlatform.Server.Jobs;
 using SmPlatform.Server.Options;
 using System.Reflection;
@@ -28,7 +29,14 @@ builder.ConfigureServices(service =>
         q.AddTrigger(ops => ops
             .ForJob(nameof(TimedSmJob))
             .WithIdentity(nameof(TimedSmJob) + "Trigger")
-            .WithCronSchedule("* * * ? * *"));
+            .WithCronSchedule("0/30 0 0 ? * * *")); // 每半分钟执行一次
+
+        q.AddJob<SmSendJob>(ops => ops.WithIdentity(nameof(SmSendJob)));
+
+        q.AddTrigger(ops => ops
+            .ForJob(nameof(SmSendJob))
+            .WithIdentity(nameof(TimedSmJob) + "Trigger")
+            .WithCronSchedule("* 0/1 0 ? * * *")); // 每分钟执行一次
 
         q.UseMicrosoftDependencyInjectionJobFactory();
     });
