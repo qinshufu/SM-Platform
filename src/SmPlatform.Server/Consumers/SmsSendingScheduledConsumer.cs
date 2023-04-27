@@ -1,9 +1,11 @@
 ﻿using MassTransit;
 using MassTransit.Mediator;
 using Microsoft.Extensions.Logging;
+using Polly;
 using SmPlatform.Domain.Events;
 using SmPlatform.Instructure.Distribution;
 using SmPlatform.Server.Commands;
+using SmPlatform.Server.Services;
 
 namespace SmPlatform.Server.Consumers;
 
@@ -17,7 +19,7 @@ public class SmsSendingScheduledConsumer : IConsumer<SmsSendingScheduledEvent>
     private readonly ILogger<SmsSendingScheduledConsumer> _logger;
 
     private readonly IMediator _mediator;
-
+    
     public SmsSendingScheduledConsumer(
         IDistributedLockManager lockManager, ILogger<SmsSendingScheduledConsumer> logger, IMediator mediator)
     {
@@ -29,18 +31,18 @@ public class SmsSendingScheduledConsumer : IConsumer<SmsSendingScheduledEvent>
     public Task Consume(ConsumeContext<SmsSendingScheduledEvent> context)
     {
         var @lock = default(IDistributedLock);
-        if (_lockManager.Lock(context.MessageId.ToString()!, out @lock) is false)
+        if (_lockManager.Lock($"event:{nameof(SmsSendingScheduledEvent)}:" + context.MessageId.ToString()!, out @lock) is false)
         {
-            _logger.LogInformation("无法获取短信处理的锁，可能有其他的进程正在处理该短信\n" + context.Message);
+            _logger.LogInformation("无法获取短信调度事件的锁，该事件正在被其他实例处理\n" + context.Message);
             return Task.CompletedTask;
         }
 
         try
         {
-            return context.Message switch
+            return context.Message.Timing switch
             {
-                { Timing: null } => _mediator.Send(new InstantSmScheduleCommand { SmsSendingEvent = context.Message }),
-                { Timing: not null } => _mediator.Send(new TimingSmScheduleCommand { SmsSendingEvent = context.Message })
+                null => _mediator.Send(new InstantSmScheduleCommand { SmsSendingEvent = context.Message }),
+                not null => _mediator.Send(new TimingSmScheduleCommand { SmsSendingEvent = context.Message })
             };
         }
         catch (Exception ex)
