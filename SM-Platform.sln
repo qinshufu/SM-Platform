@@ -15,13 +15,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmPlatform.Api.Test", "test
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmPlatform.BuildingBlock", "src\SmPlatform.BuildingBlock\SmPlatform.BuildingBlock.csproj", "{B8EF65A4-57E3-47D0-BA76-25F799A2CC36}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmPlatform.SmApi", "src\SmPlatform.SmApi\SmPlatform.SmApi.csproj", "{A7B333C0-6EFC-4627-8DA9-56F42510D701}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmPlatform.SmApi", "src\SmPlatform.SmApi\SmPlatform.SmApi.csproj", "{A7B333C0-6EFC-4627-8DA9-56F42510D701}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmPlatform.Instructure", "src\SmPlatform.Instructure\SmPlatform.Instructure.csproj", "{8C8EDC84-CBAC-4E4D-A75D-800D6B589D17}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmPlatform.Domain", "src\SmPlatform.Domain\SmPlatform.Domain.csproj", "{17EFADDD-F017-403B-A212-471C6C305D75}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmPlatform.Domain", "src\SmPlatform.Domain\SmPlatform.Domain.csproj", "{17EFADDD-F017-403B-A212-471C6C305D75}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmPlatform.Server", "src\SmPlatform.Server\SmPlatform.Server.csproj", "{65E46C6C-9B60-4071-8DE1-2BCF3F3B5898}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmPlatform.Server", "src\SmPlatform.Server\SmPlatform.Server.csproj", "{65E46C6C-9B60-4071-8DE1-2BCF3F3B5898}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
