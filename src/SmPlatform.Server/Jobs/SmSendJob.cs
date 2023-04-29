@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Polly;
 using Quartz;
 using SmPlatform.Server.Models;
 using SmPlatform.Server.Services;
@@ -25,33 +26,59 @@ public class SmSendJob : IJob
 
     public async Task Execute(IJobExecutionContext context)
     {
-        const int batchSize = 50;
+        var endTime = DateTime.Now.AddMinutes(1);
 
-        var messages = await _smQueue.DequeueRangeAsync(batchSize);
+        const int batchSize = 100;
 
-        var tasks = messages
-            .Select(async m => (Message: m, Sended: await _smSender.SendAsync(m)))
-            .Select(t => t.ContinueWith(t => t.Result.Sended switch
+        while (DateTime.Now < endTime)
+        {
+            var messages = default(List<ShortMessage>);
+
+            try
             {
-                true => OnSendSuccessful(t.Result.Message),
-                false => OnSendFailed(t.Result.Message)
-            }, TaskContinuationOptions.OnlyOnRanToCompletion));
+                messages = await _smQueue.DequeueRangeAsync(batchSize);
+            }
+            catch (InvalidOperationException)
+            {
+                // 从消息队列获取消息失败，消息队列为空
+                return;
+            }
 
-        await Task.WhenAll(tasks.ToArray());
+            var _ = messages
+                .AsParallel()
+                .WithDegreeOfParallelism((int)Math.Floor(1.0 * messages.Count / Environment.ProcessorCount))
+                .Select(async m => (Message: m, Sended: await _smSender.SendAsync(m)))
+                .Select(t => t.ContinueWith(t => t.Result.Sended switch
+                {
+                    true => OnSendSuccessful(t.Result.Message).Result,
+                    false => OnSendFailed(t.Result.Message).Result
+                }, TaskContinuationOptions.OnlyOnRanToCompletion))
+                .Select(t => t.Result)
+                .ToArray();
+        }
     }
 
-    private Task OnSendFailed(ShortMessage message)
+    private Task<ShortMessage> OnSendFailed(ShortMessage message)
     {
         _logger.LogInformation("消息发送成功: " + message);
 
-        return Task.CompletedTask;
+        return Task.FromResult(message);
     }
 
-    private Task OnSendSuccessful(ShortMessage message)
+    private async Task<ShortMessage> OnSendSuccessful(ShortMessage message)
     {
         _logger.LogWarning("消息发送成功: " + message);
 
-        // 当消息发送失败，入队重新发送
-        return _smQueue.EnqueueAsync(message);
+        var policy = Policy.Handle<Exception>()
+            .WaitAndRetryAsync(5, i => TimeSpan.FromSeconds(0.6 * Math.Pow(2, i)));
+
+        var result = await policy.ExecuteAndCaptureAsync(() => _smQueue.EnqueueAsync(message));
+
+        if (result.FinalException is not null) /// 运行失败
+        {
+            _logger.LogInformation("消息发送失败以后，重新入队失败，该消息将被遗失: " + message);
+        }
+
+        return message;
     }
 }
