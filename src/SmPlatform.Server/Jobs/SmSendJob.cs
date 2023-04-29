@@ -47,13 +47,12 @@ public class SmSendJob : IJob
             var _ = messages
                 .AsParallel()
                 .WithDegreeOfParallelism((int)Math.Floor(1.0 * messages.Count / Environment.ProcessorCount))
-                .Select(async m => (Message: m, Sended: await _smSender.SendAsync(m)))
-                .Select(t => t.ContinueWith(t => t.Result.Sended switch
+                .Select(m => (Sended: _smSender.SendAsync(m).Result, Message: m))
+                .Select(r => r.Sended switch
                 {
-                    true => OnSendSuccessful(t.Result.Message).Result,
-                    false => OnSendFailed(t.Result.Message).Result
-                }, TaskContinuationOptions.OnlyOnRanToCompletion))
-                .Select(t => t.Result)
+                    true => OnSendSuccessful(r.Message).Result,
+                    false => OnSendFailed(r.Message).Result,
+                })
                 .ToArray();
         }
     }
