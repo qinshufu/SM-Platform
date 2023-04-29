@@ -1,4 +1,5 @@
 ﻿using SmPlatform.Domain.DataModels;
+using System.Linq.Expressions;
 
 namespace SmPlatform.Domain.Repositories;
 
@@ -12,5 +13,5 @@ public interface ITimedSmRepository : IRepository<TimedMessage>
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    Task<List<TimedMessage>> FindAsync(Func<TimedMessage, bool> value);
+    Task<List<TimedMessage>> FindAsync(Expression<Func<TimedMessage, bool>> value);
 }
